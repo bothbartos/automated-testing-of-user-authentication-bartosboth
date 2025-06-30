@@ -40,10 +40,10 @@ Feature: User Authentication
   @registration @positive
   Scenario: Registration and Login with Valid Data
     Given I am on registration page
-    When I fill out registration form with "testUser4561", "testPass123" and "testPass123"
+    When I fill out registration form with "testUser0630", "testPass123" and "testPass123"
     And I submit the registration form
     Then I should see successful registration message on login page
-    When I enter the login credentials "testUser4561" and "testPass123"
+    When I enter the login credentials "testUser0630" and "testPass123"
     And I submit the login form
     Then I am on the dashboard page
-    And I should see welcome message "testUser4561"
+    And I should see welcome message "testUser0630"
