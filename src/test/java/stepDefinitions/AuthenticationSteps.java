@@ -117,11 +117,13 @@ public class AuthenticationSteps {
 
     @Then("Error message is displayed")
     public void errorMessageIsDisplayed() {
-        assertThat(getLoginPage().getAlertMessage()).containsIgnoringCase("Username is already taken.");
+        String actualMessage = getRegistrationPage().getErrorMessage();
+        assertThat(actualMessage).containsIgnoringCase("Username is already taken.");
+        assertThat(getRegistrationPage().isRegistrationFormDisplayed()).isTrue();
     }
 
     //Logout steps
-    @Given("I am logged in with valid credentials")
+    @Given("User is logged in with valid credentials")
     public void loginWithValidCredentials() {
         DriverManager.getDriver().get("https://practice.expandtesting.com/login");
         currentUser = TestDataReader.getUserByUsername("users.csv", "practice");
@@ -131,23 +133,23 @@ public class AuthenticationSteps {
         }
     }
 
-    @When("I click the logout button")
+    @When("User clicks the logout button")
     public void clickLogoutButton() {
         getDashboardPage().clickLogout();
     }
 
-    @Then("I should be redirected to the login page")
+    @Then("User should be redirected to the login page")
     public void verifyRedirectToLoginPage() {
         assertThat(DriverManager.getDriver().getCurrentUrl()).contains("login");
     }
 
-    @Then("I should see the login form")
+    @Then("User should see the login form")
     public void verifyLoginFormIsVisible() {
         assertThat(getLoginPage().isLoginFormDisplayed()).isTrue();
     }
 
     // Data-driven test steps
-    @When("I login with user {string} from CSV")
+    @When("User login with user {string} from CSV")
     public void loginWithUserFromCSV(String username) {
         currentUser = TestDataReader.getUserByUsername("users.csv", username);
         if (currentUser != null) {
@@ -155,7 +157,7 @@ public class AuthenticationSteps {
         }
     }
 
-    @When("I register with user data from JSON")
+    @When("User register with user data from JSON")
     public void registerWithUserFromJSON() {
         List<User> users = TestDataReader.readUsersFromJSON("users.json");
         if (!users.isEmpty()) {
