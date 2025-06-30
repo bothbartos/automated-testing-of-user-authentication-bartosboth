@@ -11,7 +11,7 @@ Feature: User Authentication
     And I submit the login form
     Then Correct error message is displayed "Your password is invalid!"
 
-  @session
+  @session @positive
   Scenario: Complete login-logout cycle
     Given I am on the login page
     When I enter the login credentials "practice" and "SuperSecretPassword!"
