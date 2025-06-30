@@ -16,27 +16,22 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     @FindBy(id = "flash")
-    private WebElement errorMessage;
+    private WebElement alertMessage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
     public void enterUsername(String username) {
-        waitForElementToBeVisible(usernameField);
-        usernameField.clear();
-        usernameField.sendKeys(username);
+        safeSendKeys(usernameField, username);
     }
 
     public void enterPassword(String password) {
-        waitForElementToBeVisible(passwordField);
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        safeSendKeys(passwordField, password);
     }
 
     public void clickLoginButton() {
-        waitForElementToBeClickable(loginButton);
-        loginButton.click();
+        safeClick(loginButton);
     }
 
     public void login(String username, String password) {
@@ -45,16 +40,22 @@ public class LoginPage extends BasePage {
         clickLoginButton();
     }
 
-    public String getErrorMessage() {
-        waitForElementToBeVisible(errorMessage);
-        return errorMessage.getText();
+    public String getAlertMessage() {
+        waitForElementToBeVisible(alertMessage);
+        return alertMessage.getText();
     }
 
+
     public boolean isLoginFormDisplayed() {
-        return usernameField.isDisplayed() && passwordField.isDisplayed() && loginButton.isDisplayed();
+        try {
+            waitForElementToBeVisible(usernameField);
+            return usernameField.isDisplayed() && passwordField.isDisplayed() && loginButton.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void verifyLoginPageIsDisplayed() {
-        assertThat(getCurrentUrl().contains("login"));
+        assertThat(getCurrentUrl()).contains("login");
     }
 }

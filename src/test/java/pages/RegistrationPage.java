@@ -25,26 +25,19 @@ public class RegistrationPage extends BasePage {
     }
 
     public void enterUsername(String username) {
-        waitForElementToBeVisible(usernameField);
-        usernameField.clear();
-        usernameField.sendKeys(username);
+        safeSendKeys(usernameField, username);
     }
 
     public void enterPassword(String password) {
-        waitForElementToBeVisible(passwordField);
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        safeSendKeys(passwordField, password);
     }
 
     public void enterConfirmPassword(String confirmPassword) {
-        waitForElementToBeVisible(confirmPasswordField);
-        confirmPasswordField.clear();
-        confirmPasswordField.sendKeys(confirmPassword);
+        safeSendKeys(confirmPasswordField, confirmPassword);
     }
 
     public void clickRegisterButton() {
-        waitForElementToBeClickable(registerButton);
-        registerButton.click();
+        safeClick(registerButton);
     }
 
     public void register(String username, String password, String confirmPassword) {
@@ -64,9 +57,5 @@ public class RegistrationPage extends BasePage {
                 && passwordField.isDisplayed()
                 && confirmPasswordField.isDisplayed()
                 && registerButton.isDisplayed();
-    }
-
-    public void verifyRegistrationPageIsDisplayed() {
-        assertThat(getCurrentUrl().contains("register"));
     }
 }

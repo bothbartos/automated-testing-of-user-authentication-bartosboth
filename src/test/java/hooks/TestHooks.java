@@ -13,7 +13,7 @@ public class TestHooks {
 
     @Before
     public void setUp() {
-        String browser = System.getProperty("browser", "chrome");
+        String browser = System.getProperty("browser", "firefox");
 
         DriverManager.setDriver(browser);
         driver = DriverManager.getDriver();
@@ -36,7 +36,7 @@ public class TestHooks {
         try{
             TakesScreenshot ts = (TakesScreenshot) driver;
             byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "Screenshot-" + System.currentTimeMillis());
+            scenario.attach(screenshot, "image/png", "Screenshot-" + System.currentTimeMillis() + driver.getCurrentUrl());
         }catch (Exception e) {
             System.err.println("Failed to capture screenshot: " + e.getMessage());
         }

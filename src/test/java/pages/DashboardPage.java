@@ -32,7 +32,5 @@ public class DashboardPage extends BasePage{
         return getCurrentUrl().contains("secure");
     }
 
-    public void verifyDashboardIsDisplayed() {
-        assertThat(getCurrentUrl().contains("Secure Area"));
-    }
+
 }

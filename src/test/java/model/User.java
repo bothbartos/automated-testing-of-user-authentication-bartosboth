@@ -3,17 +3,15 @@ package model;
 public class User {
     private String username;
     private String password;
-    private String email;
-    private String fullName;
-    private String expectedResult;
-
+    private String passwordConfirmation;
+    private String errorMessage;
     public User() {}
 
-    public User(String username, String password, String email, String fullName) {
+    public User(String username, String password, String errorMessage, String passwordConfirmation) {
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.fullName = fullName;
+        this.errorMessage = errorMessage;
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getUsername() { return username; }
@@ -22,23 +20,11 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getErrorMessage() { return errorMessage; }
+    public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public String getPasswordConfirmation() { return passwordConfirmation; }
+    public void setPasswordConfirmation(String passwordConfirmation) { this.passwordConfirmation = passwordConfirmation; }
 
-    public String getExpectedResult() { return expectedResult; }
-    public void setExpectedResult(String expectedResult) { this.expectedResult = expectedResult; }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", expectedResult='" + expectedResult + '\'' +
-                '}';
-    }
 }
 

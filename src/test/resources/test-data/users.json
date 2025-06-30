@@ -1,0 +1,26 @@
+[
+  {
+    "username": "testUser",
+    "password": "pass123",
+    "passwordConfirmation": "pass456",
+    "errorMessage": "Passwords do not match."
+  },
+  {
+    "username": "",
+    "password": "Password123!",
+    "passwordConfirmation": "Passwords123!",
+    "errorMessage": "All fields are required."
+  },
+  {
+    "username": "testUser",
+    "password": "",
+    "passwordConfirmation": "Passwords123!",
+    "errorMessage": "All fields are required."
+  },
+  {
+    "username": "practice",
+    "password": "SuperSecretPassword!",
+    "passwordConfirmation": "SuperSecretPassword!",
+    "errorMessage": "Username is already taken."
+  }
+]
