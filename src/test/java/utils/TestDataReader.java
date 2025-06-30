@@ -25,7 +25,7 @@ public class TestDataReader {
             CSVFormat format = CSVFormat.Builder.create()
                     .setHeader()
                     .setSkipHeaderRecord(true)
-                    .get();
+                    .build();
 
             CSVParser csvParser = CSVParser.parse(inputStream, StandardCharsets.UTF_8, format);
 
