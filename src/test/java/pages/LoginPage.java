@@ -45,6 +45,7 @@ public class LoginPage extends BasePage {
         return alertMessage.getText();
     }
 
+
     public boolean isLoginFormDisplayed() {
         try {
             waitForElementToBeVisible(usernameField);

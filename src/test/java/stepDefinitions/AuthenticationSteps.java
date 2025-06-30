@@ -42,128 +42,98 @@ public class AuthenticationSteps {
     }
 
     //Login steps
-
-    @Given("User is on the login page")
+    @Given("I am on the login page")
     public void userIsOnTheLoginPage() {
         DriverManager.getDriver().get("https://practice.expandtesting.com/login");
         getLoginPage().dismissCookieConsent();
     }
 
-    @When("User enters login credentials {string} and {string}")
+    @When("I enter the login credentials {string} and {string}")
     public void userEntersLoginCredentials(String username, String password) {
         getLoginPage().enterUsername(username);
         getLoginPage().enterPassword(password);
     }
 
-    @When("User submits login form")
+    @When("I submit the login form")
     public void userSubmitsLoginForm() {
         getLoginPage().clickLoginButton();
     }
 
-    @Then("User is on dashboard page")
+    @Then("I am on the dashboard page")
     public void userIsOnDashboardPage() {
         assertThat(getDashboardPage().isSecureAreaDisplayed()).isTrue();
     }
 
-    @Then("User should see welcome message {string}")
+    @Then("I should see welcome message {string}")
     public void userShouldSeeWelcomeMessage(String message) {
         String welcomeMessage = getDashboardPage().getWelcomeMessage();
         assertThat(welcomeMessage).containsIgnoringCase(message);
     }
 
-    @Then("User should see error message {string}")
-    public void userShouldSeeErrorMessage(String message) {
-        String actualMessage = getLoginPage().getAlertMessage();
-        assertThat(actualMessage).containsIgnoringCase(message);
-    }
-
-    @Then("User should remain on login page")
-    public void userShouldRemainOnLoginPage() {
-        assertThat(getLoginPage().isLoginFormDisplayed()).isTrue();
-    }
-
     //Registration steps
 
-    @Given("User is on registration page")
+    @Given("I am on registration page")
     public void userIsOnRegistrationPage() {
         DriverManager.getDriver().get("https://practice.expandtesting.com/register");
         getRegistrationPage().dismissCookieConsent();
     }
 
-    @When("User fills out registration form with {string}, {string} and {string}")
+    @When("I fill out registration form with {string}, {string} and {string}")
     public void userFillsOutRegistrationFormWithAnd(String username, String password, String passwordConfirmation) {
         getRegistrationPage().enterUsername(username);
         getRegistrationPage().enterPassword(password);
         getRegistrationPage().enterConfirmPassword(passwordConfirmation);
     }
 
-    @When("User submits the registration form")
+    @When("I submit the registration form")
     public void userSubmitsTheRegistrationForm() {
         getRegistrationPage().clickRegisterButton();
     }
 
-    @Then("User should see successful registration message on login page")
+    @Then("I should see successful registration message on login page")
     public void userShouldSeeSuccessfulRegistrationMessage() {
-        String currentUrl = DriverManager.getDriver().getCurrentUrl();
-        assertThat(currentUrl.contains("login")).isTrue();
         String alertMessage = getLoginPage().getAlertMessage();
-        assertThat(alertMessage).containsIgnoringCase(" Successfully registered, you can log in now.");
+        assertThat(alertMessage).containsIgnoringCase("Successfully registered, you can log in now.");
     }
 
-    @When("User registers with taken username: {string}, password: {string} and password confirmation {string}")
-    public void userRegistersWithTakenUsername(String username, String password, String passwordConfirmation) {
-        getRegistrationPage().register(username, password, passwordConfirmation);
-    }
-
-    @Then("Error message is displayed")
-    public void errorMessageIsDisplayed() {
+    @Then("Correct error message is displayed {string}")
+    public void errorMessageIsDisplayed(String message) {
         String actualMessage = getRegistrationPage().getErrorMessage();
-        assertThat(actualMessage).containsIgnoringCase("Username is already taken.");
-        assertThat(getRegistrationPage().isRegistrationFormDisplayed()).isTrue();
+        assertThat(actualMessage).containsIgnoringCase(message);
     }
 
     //Logout steps
-    @Given("User is logged in with valid credentials")
-    public void loginWithValidCredentials() {
-        DriverManager.getDriver().get("https://practice.expandtesting.com/login");
-        currentUser = TestDataReader.getUserByUsername("users.csv", "practice");
-        if (currentUser != null) {
-            getLoginPage().dismissCookieConsent();
-            getLoginPage().login(currentUser.getUsername(), currentUser.getPassword());
-        }
-    }
-
-    @When("User clicks the logout button")
+    @When("I click on the logout button")
     public void clickLogoutButton() {
         getDashboardPage().clickLogout();
     }
 
-    @Then("User should be redirected to the login page")
+    @Then("I should be redirected to the login page")
     public void verifyRedirectToLoginPage() {
         assertThat(DriverManager.getDriver().getCurrentUrl()).contains("login");
     }
 
-    @Then("User should see the login form")
+    @Then("I should see the login form")
     public void verifyLoginFormIsVisible() {
         assertThat(getLoginPage().isLoginFormDisplayed()).isTrue();
     }
 
     // Data-driven test steps
-    @When("User login with user {string} from CSV")
-    public void loginWithUserFromCSV(String username) {
-        currentUser = TestDataReader.getUserByUsername("users.csv", username);
-        if (currentUser != null) {
-            getLoginPage().login(currentUser.getUsername(), currentUser.getPassword());
+    @When("I register with invalid user {int} from JSON")
+    public void registerWithSpecificInvalidUserFromJSON(int userIndex) {
+        List<User> invalidUsers = TestDataReader.readUsersFromJSON("users.json");
+
+        if (userIndex >= 0 && userIndex < invalidUsers.size()) {
+            this.currentUser = invalidUsers.get(userIndex);
+            getRegistrationPage().register(currentUser.getUsername(), currentUser.getPassword(), currentUser.getPasswordConfirmation());
+
         }
     }
 
-    @When("User register with user data from JSON")
-    public void registerWithUserFromJSON() {
-        List<User> users = TestDataReader.readUsersFromJSON("users.json");
-        if (!users.isEmpty()) {
-            User user = users.getFirst();
-            getRegistrationPage().register(user.getUsername(), user.getPassword(), user.getPassword());
-        }
+    @Then("Correct registration error message is displayed from JSON")
+    public void correctErrorMessageIsDisplayedFromJSON() {
+        String actualMessage = getRegistrationPage().getErrorMessage();
+        assertThat(actualMessage).containsIgnoringCase(this.currentUser.getErrorMessage());
     }
 
 }

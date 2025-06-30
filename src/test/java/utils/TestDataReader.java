@@ -33,9 +33,6 @@ public class TestDataReader {
                 User user = new User();
                 user.setUsername(record.get("username"));
                 user.setPassword(record.get("password"));
-                user.setEmail(record.get("email"));
-                user.setFullName(record.get("fullName"));
-                user.setExpectedResult(record.get("expectedResult"));
                 users.add(user);
             }
 

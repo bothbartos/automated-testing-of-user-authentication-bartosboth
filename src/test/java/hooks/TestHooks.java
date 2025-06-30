@@ -3,14 +3,10 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import utils.DriverManager;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
 
 public class TestHooks {
     private WebDriver driver;
@@ -36,12 +32,11 @@ public class TestHooks {
         }
     }
 
-
     private void takeScreenshot(Scenario scenario) {
         try{
             TakesScreenshot ts = (TakesScreenshot) driver;
             byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "Screenshot-" + System.currentTimeMillis());
+            scenario.attach(screenshot, "image/png", "Screenshot-" + System.currentTimeMillis() + driver.getCurrentUrl());
         }catch (Exception e) {
             System.err.println("Failed to capture screenshot: " + e.getMessage());
         }
