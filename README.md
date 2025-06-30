@@ -10,8 +10,6 @@ This automation framework tests the complete user authentication flow including:
 - Session management and logout functionality
 - Error handling and validation scenarios
 
-**Target Application:** [https://practice.expandtesting.com](https://practice.expandtesting.com)
-
 ## 🛠️ Technology Stack
 
 - **Java 22** - Programming language
@@ -81,7 +79,7 @@ mvn test -Dbrowser=edge
 ```
 
 ### Parallel Execution
-Tests run in parallel by default (4 threads). To modify:
+Tests run in parallel by default (4 threads). To modify, edit `src/test/resources/junit-platform.properties`:
 ```bash
 # Run with 3 parallel threads
 mvn test -Dcucumber.execution.parallel.config.fixed.parallelism=3
@@ -117,17 +115,6 @@ After test execution, reports are generated in:
 - `target/cucumber-reports/cucumber.html` - HTML report
 - `target/cucumber-reports/cucumber.json` - JSON report
 - `target/surefire-reports/` - Maven Surefire reports
-
-## 🔧 Configuration
-
-### Parallel Execution Settings
-Edit `src/test/resources/junit-platform.properties`:
-```properties
-cucumber.execution.parallel.enabled=true
-cucumber.execution.parallel.config.strategy=fixed
-cucumber.execution.parallel.config.fixed.parallelism=2
-```
-
 
 ## 🎯 Key Features
 
