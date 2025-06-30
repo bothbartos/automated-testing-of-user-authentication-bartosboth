@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class DriverManager {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
@@ -29,17 +30,28 @@ public class DriverManager {
 
     private static WebDriver createDriver(String browser) {
         return switch (browser.toLowerCase()){
+            case "firefox" -> {
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions options = new FirefoxOptions();
+
+                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.setBinary("/Applications/Firefox.app/Contents/MacOS/firefox");
+                }
+
+                options.addArguments("--disable-blink-features=AutomationControlled");
+                options.addArguments("--disable-extensions");
+                yield new FirefoxDriver(options);
+            }
             case "chrome" -> {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless");
                 options.addArguments("--disable-blink-features=AutomationControlled");
                 options.addArguments("--disable-extensions");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
                 yield new ChromeDriver(options);
-            }
-            case "firefox" -> {
-                WebDriverManager.firefoxdriver().setup();
-                yield new FirefoxDriver();
             }
             case "edge" -> {
                 WebDriverManager.edgedriver().setup();

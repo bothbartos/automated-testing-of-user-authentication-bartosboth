@@ -3,17 +3,21 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import utils.DriverManager;
+
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestHooks {
     private WebDriver driver;
 
     @Before
     public void setUp() {
-        String browser = System.getProperty("browser", "chrome");
+        String browser = System.getProperty("browser", "firefox");
 
         DriverManager.setDriver(browser);
         driver = DriverManager.getDriver();
@@ -31,6 +35,7 @@ public class TestHooks {
             DriverManager.quitDriver();
         }
     }
+
 
     private void takeScreenshot(Scenario scenario) {
         try{
