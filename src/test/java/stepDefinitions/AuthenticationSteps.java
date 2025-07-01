@@ -125,7 +125,7 @@ public class AuthenticationSteps {
 
         if (userIndex >= 0 && userIndex < invalidUsers.size()) {
             this.currentUser = invalidUsers.get(userIndex);
-            getRegistrationPage().register(currentUser.getUsername(), currentUser.getPassword(), currentUser.getPasswordConfirmation());
+            getRegistrationPage().register(currentUser.username(), currentUser.password(), currentUser.passwordConfirmation());
 
         }
     }
@@ -133,7 +133,7 @@ public class AuthenticationSteps {
     @Then("Correct registration error message is displayed from JSON")
     public void correctErrorMessageIsDisplayedFromJSON() {
         String actualMessage = getRegistrationPage().getErrorMessage();
-        assertThat(actualMessage).containsIgnoringCase(this.currentUser.getErrorMessage());
+        assertThat(actualMessage).containsIgnoringCase(this.currentUser.errorMessage());
     }
 
 }
