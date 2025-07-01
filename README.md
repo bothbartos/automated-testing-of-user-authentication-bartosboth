@@ -79,10 +79,9 @@ mvn test -Dbrowser=edge
 ```
 
 ### Parallel Execution
-Tests run in parallel by default (4 threads). To modify, edit `src/test/resources/junit-platform.properties`:
 ```bash
-# Run with 3 parallel threads
-mvn test -Dcucumber.execution.parallel.config.fixed.parallelism=3
+# Run with 2 parallel threads
+mvn test -Dcucumber.execution.parallel.config.fixed.parallelism=2
 
 # Disable parallel execution
 mvn test -Dcucumber.execution.parallel.enabled=false
